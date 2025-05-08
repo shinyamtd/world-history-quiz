@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>世界史探究復習問題その1(オリエント世界)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Noto+Sans+JP:wght@400;500&display=swap');
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            background-color: #c8a679; /* Darker Sand as base */
+            background-image:
+                linear-gradient(rgba(40, 30, 20, 0.7), rgba(40, 30, 20, 0.7)), /* Darker overlay */
+                url('https://cdn.pixabay.com/photo/2016/09/09/10/00/pyramids-1655926_1280.jpg'); /* Keep example, suggest user change */
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            color: #e0e0e0; /* Light text color for dark background */
+        }
+        #quiz-container {
+            background: rgba(50, 40, 30, 0.88); /* Dark, slightly transparent wood/earth tone */
+            padding: 30px 40px;
+            border-radius: 8px; /* Slightly less rounded */
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+            width: 95%;
+            max-width: 800px; /* Wider for more exotic feel */
+            border: 2px solid #a07e56; /* Golden-brown border */
+            border-image: linear-gradient(to right, #b8860b, #daa520) 1; /* Gold-like border image */
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        h1 {
+             font-family: 'Cinzel', serif; /* Exotic, classic font */
+             text-align: center;
+             color: #ffd700; /* Gold */
+             margin-bottom: 30px;
+             font-size: 2.2em; /* Larger title */
+             font-weight: 600;
+             text-shadow: 1px 1px 2px #000, 0 0 10px #b8860b; /* Stronger shadow, gold glow */
+        }
+        .question-block {
+            margin-bottom: 30px; /* More spacing */
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(184, 134, 11, 0.4); /* Faint gold line */
+            display: none;
+        }
+        .question-block.active {
+            display: block;
+        }
+        .question-block p { /* Question text */
+            font-weight: 500; /* Noto Sans JP medium */
+            margin-bottom: 18px;
+            font-size: 1.2em;
+            color: #f5deb3; /* Wheat / Light beige */
+        }
+        .question-block label { /* Option labels */
+            display: block;
+            margin-bottom: 12px;
+            cursor: pointer;
+            padding: 14px 20px;
+            border: 1px solid #8b4513; /* SaddleBrown */
+            border-radius: 4px;
+            transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.15s ease;
+            background-color: rgba(139, 69, 19, 0.2); /* Transparent SaddleBrown */
+            color: #e0e0e0;
+        }
+        .question-block label:hover {
+            background-color: rgba(184, 134, 11, 0.3); /* Transparent Gold */
+            border-color: #daa520; /* Gold */
+            transform: translateX(5px); /* Slight shift on hover */
+        }
+        .question-block input[type="radio"] {
+            margin-right: 12px;
+            vertical-align: middle;
+            appearance: none; /* Custom radio */
+            width: 18px;
+            height: 18px;
+            border: 2px solid #daa520; /* Gold */
+            border-radius: 50%;
+            position: relative;
+            top: 3px;
+        }
+        .question-block input[type="radio"]:checked {
+            background-color: #daa520; /* Gold fill */
+            box-shadow: 0 0 5px #ffd700;
+        }
+        .question-block label.selected {
+             background-color: rgba(184, 134, 11, 0.4); /* Darker Gold */
+             border-color: #ffd700; /* Bright Gold */
+             font-weight: 500;
+         }
+
+        #navigation-area {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        button.quiz-btn {
+            font-family: 'Cinzel', serif;
+            padding: 12px 35px;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #281c0a; /* Dark brown text for gold button */
+            background-image: linear-gradient(to bottom, #ffd700, #daa520); /* Gold gradient */
+            border: 1px solid #b8860b; /* Dark Gold border */
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.4), inset 0 -2px 0 rgba(0,0,0,0.2);
+            margin: 8px;
+            text-shadow: 1px 1px 1px rgba(255,255,255,0.2);
+        }
+        button.quiz-btn:hover {
+            background-image: linear-gradient(to bottom, #f0c000, #c8960a);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.5), inset 0 -2px 0 rgba(0,0,0,0.2);
+        }
+        button.quiz-btn:active {
+            transform: translateY(0px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.4), inset 0 -1px 0 rgba(0,0,0,0.2);
+        }
+         button#continue-btn, button#restart-btn {
+            background-image: linear-gradient(to bottom, #48D1CC, #20B2AA); /* Turquoise/Teal gradient */
+            color: #fff;
+            border-color: #008080;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+         }
+         button#continue-btn:hover, button#restart-btn:hover {
+            background-image: linear-gradient(to bottom, #40E0D0, #008080);
+         }
+
+
+        #result-area {
+            margin-top: 30px;
+            padding: 30px;
+            border: 2px solid #a07e56;
+            border-image: linear-gradient(to right, #b8860b, #daa520) 1;
+            border-radius: 8px;
+            background-color: rgba(50, 40, 30, 0.9); /* Match container */
+            color: #f5deb3; /* Wheat */
+            display: none;
+        }
+        #result-area h2, #result-area h3 {
+            font-family: 'Cinzel', serif;
+            text-align: center;
+            color: #ffd700; /* Gold */
+            text-shadow: 1px 1px 2px #000;
+        }
+        #result-area h2 { font-size: 1.8em; margin-bottom: 15px;}
+        #result-area h3 { font-size: 1.4em; margin-bottom: 20px; margin-top: 30px;}
+
+        #result-area .score-summary {
+            text-align: center;
+            font-size: 1.25em;
+            font-weight: 500;
+            margin-bottom: 25px;
+            color: #fff; /* White for contrast on dark */
+        }
+
+        #progress-bar-container {
+            width: 100%;
+            background-color: rgba(0,0,0, 0.3); /* Darker, transparent */
+            border-radius: 5px;
+            margin-bottom: 25px;
+            height: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(184, 134, 11, 0.5); /* Gold border */
+        }
+        #progress-bar {
+            width: 0%;
+            height: 100%;
+            background-image: linear-gradient(to right, #daa520, #ffd700); /* Gold gradient */
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+         #question-counter {
+            text-align: right;
+            font-size: 1em;
+            color: #daa520; /* Gold */
+            margin-bottom: 20px;
+            font-weight: 500;
+         }
+         .alert-message {
+             color: #FF6347; /* Tomato Red */
+             font-size: 0.95em;
+             margin-top: 15px;
+             text-align: center;
+             display: none;
+             font-weight: bold;
+             background-color: rgba(50, 20, 20, 0.7); /* Dark red transparent */
+             padding: 8px;
+             border-radius: 4px;
+             border: 1px solid #FF4500;
+         }
+         #incorrect-list {
+             margin-top: 20px;
+             text-align: left;
+             font-size: 0.95em;
+             font-weight: normal;
+             color: #e0e0e0;
+         }
+         .incorrect-question-block {
+             background-color: rgba(60, 50, 40, 0.7); /* Darker transparent item bg */
+             padding: 18px;
+             margin-bottom: 18px;
+             border: 1px solid rgba(184, 134, 11, 0.4); /* Faint gold border */
+             border-radius: 4px;
+         }
+         .incorrect-question-block p {
+             margin: 6px 0;
+             font-size: 1em;
+             color: #f5deb3; /* Wheat for readability */
+         }
+         .incorrect-question-block .question-text {
+             font-weight: bold;
+             color: #ffd700; /* Gold question text */
+         }
+          .incorrect-question-block .user-answer {
+             color: #FF7F50; /* Coral for user's wrong answer */
+         }
+         .incorrect-question-block .correct-answer {
+             color: #90EE90; /* LightGreen for correct */
+             font-weight: bold;
+         }
+         .incorrect-question-block .explanation {
+             margin-top: 10px;
+             color: #b0c4de; /* LightSteelBlue for explanation */
+             font-style: italic;
+             font-size: 0.95em;
+         }
+    </style>
+</head>
+<body>
+
+<div id="quiz-container">
+    <h1>世界史探究復習問題その1(オリエント世界)</h1>
+
+    <div id="quiz-content">
+        <div id="progress-bar-container">
+            <div id="progress-bar"></div>
+        </div>
+        <div id="question-counter"></div>
+        <form id="quizForm"></form>
+        <div id="navigation-area">
+            <p id="alert-msg" class="alert-message">答えを選択してください。</p>
+            <button id="next-btn" type="button" class="quiz-btn">次へ</button>
+        </div>
+    </div>
+
+    <div id="result-area"></div>
+
+</div>
+
+<script>
+    const quizData = [
+        // --- All 40 questions with explanations (as provided before) ---
+        { question: "1. 人類の歴史の99％以上を占める、文字発明以前の時代を何と呼びますか？", options: {a: "歴史時代", b: "先史時代", c: "文明時代", d: "石器時代"}, answer: "b", explanation: "文字による記録が残される以前の時代を先史時代と呼びます。人類の歴史の大部分はこの時代にあたります。" },
+        { question: "2. 人類を他の動物から区別する最大の特徴として、本文で最初に挙げられているものは何ですか？", options: {a: "大きな脳", b: "道具の使用", c: "直立二足歩行", d: "言語の使用"}, answer: "c", explanation: "直立二足歩行によって手が自由になり、道具の使用や脳の発달が促されました。これが人類の進化の大きな特徴です。" },
+        { question: "3. 最初に出現した人類である猿人の代表例として挙げられているものは何ですか？", options: {a: "ホモ=エレクトゥス", b: "ネアンデルタール人", c: "クロマニョン人", d: "アウストラロピテクス"}, answer: "d", explanation: "約700万年前にアフリカに出現した最初の猿人の代表例として、アウストラロピテクスが挙げられています。" },
+        { question: "4. 約240万年前にアフリカに登場し、火を使用した人類は何と呼ばれますか？", options: {a: "猿人", b: "原人", c: "旧人", d: "新人"}, answer: "b", explanation: "原人（ホモ=エレクトゥスなど）は改良された打製石器とともに火を使用し、厳しい環境を生き抜きました。" },
+        { question: "5. 死者を埋葬するなどの精神文化を発達させたとされる人類は何ですか？", options: {a: "猿人", b: "原人 (ホモ=エレクトゥス)", c: "旧人 (ネアンデルタール人)", d: "新人 (クロマニョン人)"}, answer: "c", explanation: "旧人（ネアンデルタール人など）は、死者の埋葬を行うなど、精神文化（宗教観の萌芽）を発達させました。" },
+        { question: "6. われわれと同じ現生人類(ホモ=サピエンス)に属し、約20万年前にアフリカに現れた人類は何と呼ばれますか？", options: {a: "猿人", b: "原人", c: "旧人", d: "新人"}, answer: "d", explanation: "新人（ホモ=サピエンス）は私たち現生人類と同じ種であり、アフリカで誕生し、その後全世界に広がりました。" },
+        { question: "7. 新人が用いた、骨や角でつくられた道具は何と呼ばれますか？", options: {a: "打製石器", b: "磨製石器", c: "骨角器", d: "礫石器"}, answer: "c", explanation: "新人は石器技術を発展させるとともに、動物の骨や角を利用した骨角器（釣針、銛、縫い針など）も使用しました。" },
+        { question: "8. 打製石器を用いて狩猟・採集生活を営んでいた時代を何と呼びますか？", options: {a: "新石器時代", b: "旧石器時代", c: "青銅器時代", d: "鉄器時代"}, answer: "b", explanation: "石を打ち欠いて作った打製石器を使用し、狩猟・採集で食料を得ていた時代を旧石器時代と呼びます。" },
+        { question: "9. 現代科学において、身体的特徴による人種の分類や優劣の差についての考え方はどうされていますか？", options: {a: "科学的根拠があるとされている", b: "文化的な違いを示すものとして重要視されている", c: "科学的根拠がないとされている", d: "言語の違いと密接に関連しているとされている"}, answer: "c", explanation: "全ての現生人類はホモ=サピエンスという単一の種に属し、人種という区分や人種間の優劣には科学的根拠がないとされています。" },
+        { question: "10. 約9000年前の西アジアで始まった、人類史における重大な変革は何ですか？", options: {a: "文字の発明", b: "鉄器の使用開始", c: "農耕・牧畜の開始", d: "都市国家の形成"}, answer: "c", explanation: "西アジア（肥沃な三日月地帯）で始まった農耕・牧畜は、食料生産を可能にし、定住生活や人口増加、文明の基盤をもたらした大きな変革です。" },
+        { question: "11. 農耕・牧畜の開始により、人類の経済はどのように変化しましたか？", options: {a: "生産経済から獲得経済へ", b: "獲得経済から生産経済へ", c: "交易経済から生産経済へ", d: "獲得経済から交易経済へ"}, answer: "b", explanation: "狩猟・採集で自然から食料を得る「獲得経済」から、農耕・牧畜で食料を自ら作り出す「生産経済」へと移行しました。" },
+        { question: "12. 磨製石器、土器、織物などが使われるようになった時代を何と呼びますか？", options: {a: "旧石器時代", b: "中石器時代", c: "新石器時代", d: "青銅器時代"}, answer: "c", explanation: "農耕・牧畜の開始とともに、石斧などの磨製石器、食料の貯蔵や調理に使う土器、衣服のための織物などが作られる新石器時代が始まりました。" },
+        { question: "13. 食料生産力を高め、文明成立の基盤となった農業の方法は何ですか？", options: {a: "焼畑農業", b: "雨水だけに頼る農業", c: "灌漑農業", d: "遊牧"}, answer: "c", explanation: "メソポタミアなどの大河流域では、河川から水を引いて農地を潤す灌漑農業により、食料生産が飛躍的に向上し、文明が発展しました。" },
+        { question: "14. 文明において発明され、政治や商業の記録を残すために用いられたものは何ですか？", options: {a: "金属器", b: "土器", c: "文字", d: "骨角器"}, answer: "c", explanation: "都市や国家が形成されると、交易の記録、税の徴収、法律の制定などのために文字が発明され、歴史時代が始まりました。" },
+        { question: "15. オリエントとは、ヨーロッパから見てどのような意味を持つ言葉ですか？", options: {a: "日の沈むところ、西方", b: "未開の地", c: "日ののぼるところ、東方", d: "文明の中心地"}, answer: "c", explanation: "オリエントはラテン語で「太陽が昇る方向」を意味し、古代のヨーロッパ人から見た東方、すなわちエジプトや西アジア地域を指します。" },
+        { question: "16. メソポタミアやエジプトの大河流域で行われた、王が神やその代理人として大きな権力をもつ政治体制を何と呼びますか？", options: {a: "民主政治", b: "神権政治", c: "共和政治", d: "封建政治"}, answer: "b", explanation: "古代オリエントの王は、しばしば神自身や神の代理人とされ、宗教的権威に基づいて統治を行う神権政治が行われました。" },
+        { question: "17. メソポタミア南部で前2700年頃までにウル・ウルクなどの都市国家を形成した人々は誰ですか？", options: {a: "アッカド人", b: "アムル人", c: "シュメール人", d: "ヒッタイト人"}, answer: "c", explanation: "メソポタミア南部に最初に都市文明を築いたのはシュメール人で、彼らは楔形文字や神殿（ジッグラト）などを特徴とする文化を発展させました。" },
+        { question: "18. バビロン第１王朝を建国し、ハンムラビ法典を発布して全メソポタミアを支配した王は誰ですか？", options: {a: "クフ王", b: "ハンムラビ王", c: "アメンヘテプ4世", d: "サルゴン1世"}, answer: "b", explanation: "アムル人が建てたバビロン第1王朝の第6代王ハンムラビは、メソポタミアを統一し、「目には目を、歯には歯を」で知られるハンムラビ法典を制定しました。" },
+        { question: "19. 早くから鉄器を使用し、アナトリア高原に強力な国家を建設した人々は誰ですか？", options: {a: "シュメール人", b: "エジプト人", c: "アムル人", d: "ヒッタイト人"}, answer: "d", explanation: "ヒッタイト人は現在のトルコにあたるアナトリア高原に王国を築き、オリエント世界で最初に鉄器を本格的に使用したことで知られます。" },
+        { question: "20. メソポタミアで広く用いられた、粘土板に刻まれた文字は何ですか？", options: {a: "神聖文字 (ヒエログリフ)", b: "アラム文字", c: "楔形文字", d: "アルファベット"}, answer: "c", explanation: "シュメール人によって発明され、葦のペンで粘土板に刻まれた楔形の文字は、アッカド語など他の言語にも適用され、メソポタミアで広く使われました。" },
+        { question: "21. 古代エジプトの王の称号は何ですか？", options: {a: "ルガル", b: "スルタン", c: "ファラオ", d: "エンシ"}, answer: "c", explanation: "古代エジプトの王は「大きな家」を意味するファラオと呼ばれ、神格化された絶対的な権力者でした。" },
+        { question: "22. エジプト古王国時代に巨大なピラミッドを築かせた王として、本文で名前が挙げられているのは誰ですか？", options: {a: "ハンムラビ王", b: "アメンヘテプ4世", c: "クフ王", d: "ラムセス2世"}, answer: "c", explanation: "エジプト古王国時代（前27世紀頃～）には、メンフィスを中心にクフ王などがギザに巨大なピラミッドを建設しました。" },
+        { question: "23. パピルス草から作られた、古代エジプトで用いられた筆記媒体は何ですか？", options: {a: "粘土板", b: "羊皮紙", c: "パピルス", d: "木簡"}, answer: "c", explanation: "ナイル川流域に生えるパピルス草の茎から作られたパピルス紙は、軽量で扱いやすく、古代エジプトの主要な書写材料でした。" },
+        { question: "24. シリアの内陸で中継貿易に活躍し、その言語と文字がオリエントの国際商業語となった人々は誰ですか？", options: {a: "フェニキア人", b: "ヘブライ人", c: "アラム人", d: "ヒッタイト人"}, answer: "c", explanation: "アラム人はダマスクスなどを拠点に内陸交易で活躍し、彼らのアラム語とアラム文字は、オリエント世界の共通語・共通文字として広く普及しました。" },
+        { question: "25. 唯一神ヤハウェへの信仰を核とし、救世主(メシア)を待ち望むユダヤ教を生み出した人々は誰ですか？", options: {a: "フェニキア人", b: "ヘブライ人", c: "アラム人", d: "シュメール人"}, answer: "b", explanation: "ヘブライ人（ユダヤ人）は、バビロン捕囚などの苦難の中で唯一神ヤハウェへの信仰を深め、選民思想や救世主（メシア）待望を特徴とするユダヤ教を確立しました。" },
+        { question: "26. エーゲ文明が最初に栄えたとされる東地中海沿岸の島はどこですか？", options: {a: "キプロス島", b: "ロードス島", c: "クレタ島", d: "サントリーニ島"}, answer: "c", explanation: "エーゲ文明は、まずクレタ島でクレタ文明として栄えました。中心地はクノッソスです。" },
+        { question: "27. クレタ文明の中心地クノッソスに建てられたものは何ですか？", options: {a: "巨大な城壁", b: "円形闘技場", c: "大宮殿", d: "天文台"}, answer: "c", explanation: "クレタ文明の中心地クノッソスには、複雑な構造を持つ大宮殿が建てられました。この文明は城壁を持たない開放的な特徴がありました。" },
+        { question: "28. ギリシア本土でミケーネ文明を築き始めたのは、どのような人々ですか？", options: {a: "クレタ島からの移住民", b: "エジプトからの商人", c: "北方から移住してきたギリシア人", d: "フェニキア人の植民者"}, answer: "c", explanation: "ギリシア本土では、前16世紀頃から北方から移住してきたギリシア人がミケーネ文明を築きました。彼らは戦闘的でした。" },
+        { question: "29. ミケーネ文明の諸王国が突然滅亡したのは、およそいつ頃ですか？", options: {a: "前2000年頃", b: "前1600年頃", c: "前1200年頃", d: "前800年頃"}, answer: "c", explanation: "ミケーネ文明の諸王国は前1200年頃に突然滅び、その後ギリシアは「暗黒時代」と呼ばれる混乱期に入りました。" },
+        { question: "30. オリエント世界を最初に統一した、北メソポタミアに起こった王国は何ですか？", options: {a: "バビロン第1王朝", b: "アッシリア", c: "ヒッタイト", d: "メディア"}, answer: "b", explanation: "北メソポタミアに起こったアッシリアは、前7世紀前半に鉄製の武器と騎馬戦術で全オリエントを征服し、最初の世界帝国を築きました。" },
+        { question: "31. アッシリアが強力な軍事力でオリエントを征服できた主な要因の一つは何ですか？", options: {a: "青銅器の改良", b: "象部隊の導入", c: "鉄製の武器と騎馬戦術", d: "海軍力の強化"}, answer: "c", explanation: "アッシリアは鉄製の武器を本格的に使用し、戦車と騎兵を組み合わせた騎馬戦術によって強力な軍事力を誇りました。" },
+        { question: "32. アッシリアの統治政策として、本文中に記載されていないものはどれですか？", options: {a: "国内を州に分ける", b: "駅伝制を設ける", c: "各地に総督を置く", d: "服属民への寛容な政策"}, answer: "d", explanation: "アッシリアは国内を州に分け総督を置き、駅伝制を整備しましたが、重税と圧政で服属民の反抗を招きました。寛容策は後のアケメネス朝の特徴です。" },
+        { question: "33. シリア・パレスチナ地方からメソпоタミアに至る農耕文明の成立地帯の通称は何ですか？", options: {a: "ナイルのたまもの", b: "シルクロード", c: "肥沃な三日月地帯", d: "インド洋交易圏"}, answer: "c", explanation: "「肥沃な三日月地帯」は、ティグリス・ユーフラテス川流域から地中海東岸にかけて広がる、初期農耕文明が発達した地域を指します。" },
+        { question: "34. 古代ギリシアの歴史家で、「エジプトはナイルのたまもの」という言葉を残した人物は誰ですか？", options: {a: "トゥキディデス", b: "プラトン", c: "アリストテレス", d: "ヘロドトス"}, answer: "d", explanation: "「歴史の父」とも呼ばれるヘロドトスが、その著書『歴史』の中で、エジプト文明がナイル川の恩恵によって栄えたことを指してこの言葉を残しました。" },
+        { question: "35. エジプト新王国時代のアメンヘテプ4世が、唯一絶対の神として信仰を強制しようとした太陽神の名前は何ですか？", options: {a: "ラー", b: "オシリス", c: "アメン", d: "アテン"}, answer: "d", explanation: "アメンヘテプ4世（イクナートン）は、従来の多神教を否定し、太陽円盤で象徴されるアテン神を唯一神とする宗教改革を行いました。" },
+        { question: "36. ホメロスの叙事詩を信じ、私財を投じてトロイア遺跡の発掘に成功した貿易商は誰ですか？", options: {a: "エヴァンス", b: "シュリーマン", c: "シャンポリオン", d: "カーター"}, answer: "b", explanation: "ドイツのハインリヒ=シュリーマンは、幼少期からの夢を追い、貿易で得た富でトロイアやミケーネの遺跡を発掘しました。" },
+        { question: "37. アケメネス朝ペルシアを建国し、後にダレイオス1世によって大帝国に発展する基礎を築いたイラン人の王朝名は？", options: {a: "ササン朝", b: "アケメネス朝", c: "パルティア", d: "セレウコス朝"}, answer: "b", explanation: "イラン高原のペルシア人がメディアから自立して建国したのがアケメネス朝で、キュロス2世が基礎を築きました。" },
+        { question: "38. アケメネス朝のダレイオス1世が、広大な帝国を統治するために各州に派遣した知事の称号は何ですか？", options: {a: "ファラオ", b: "スルタン", c: "サトラップ", d: "ルガル"}, answer: "c", explanation: "ダレイオス1世は帝国を約20の州に分け、それぞれに知事であるサトラップを任命して統治しました。また「王の目・王の耳」という監察官も巡回させました。" },
+        { question: "39. アケメネス朝ペルシアで信仰された、善悪二元論を特徴とする宗教は何ですか？", options: {a: "ユダヤ教", b: "マニ教", c: "ゾロアスター教", d: "ミトラ教"}, answer: "c", explanation: "ゾロアスター教は、預言者ゾロアスターが開いた宗教で、善の神アフラ=マズダと悪の神アンラ=マンユの闘争を世界の原理とし、終末には善神が勝利すると説きました。" },
+        { question: "40. インダス川からエーゲ海北岸に至る大帝国を築いたアケメネス朝ペルシアは、誰によって征服されましたか？", options: {a: "ローマ皇帝アウグストゥス", b: "マケドニアのアレクサンドロス大王", c: "フン族のアッティラ", d: "モンゴルのチンギス=ハン"}, answer: "b", explanation: "前5世紀のペルシア戦争での敗北後、徐々に衰退したアケメネス朝は、前330年にマケドニアのアレクサンドロス大王の東方遠征によって滅ぼされました。" }
+    ];
+
+    let currentQuestionIndex = 0;
+    let currentQuizPart = 1;
+    const questionsPerPart = 20;
+    const totalOverallQuestions = quizData.length;
+    const userAnswers = {};
+    let incorrectQuestionsOverall = []; // Let, as it will be reassigned
+
+    const quizContentDiv = document.getElementById('quiz-content');
+    const quizForm = document.getElementById('quizForm');
+    const nextBtn = document.getElementById('next-btn');
+    const resultAreaDiv = document.getElementById('result-area');
+    const progressBar = document.getElementById('progress-bar');
+    const questionCounter = document.getElementById('question-counter');
+    const alertMsg = document.getElementById('alert-msg');
+
+    function loadQuestion(index) {
+        quizForm.innerHTML = '';
+        alertMsg.style.display = 'none';
+
+        if (index < totalOverallQuestions) {
+            const currentQuizData = quizData[index];
+            const questionDiv = document.createElement('div');
+            questionDiv.classList.add('question-block', 'active');
+
+            const questionText = document.createElement('p');
+            questionText.textContent = currentQuizData.question;
+            questionDiv.appendChild(questionText);
+
+            const questionName = `q${index + 1}`;
+
+            for (const key in currentQuizData.options) {
+                const label = document.createElement('label');
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = questionName;
+                radio.value = key;
+                radio.id = `${questionName}-${key}`;
+
+                if(userAnswers[questionName] === key) {
+                    radio.checked = true;
+                    label.classList.add('selected');
+                }
+
+                radio.addEventListener('change', () => {
+                    questionDiv.querySelectorAll('label').forEach(lbl => lbl.classList.remove('selected'));
+                    label.classList.add('selected');
+                    alertMsg.style.display = 'none';
+                });
+
+                label.appendChild(radio);
+                const span = document.createElement('span');
+                span.textContent = ` ${key}) ${currentQuizData.options[key]}`;
+                label.appendChild(span);
+                label.htmlFor = `${questionName}-${key}`;
+                questionDiv.appendChild(label);
+            }
+
+            quizForm.appendChild(questionDiv);
+            updateProgressDisplay(index);
+
+            if (index === (questionsPerPart * currentQuizPart) - 1 && currentQuizPart === 1) {
+                nextBtn.textContent = '中間結果を見る';
+            } else if (index === totalOverallQuestions - 1) {
+                nextBtn.textContent = '最終結果を見る';
+            } else {
+                nextBtn.textContent = '次へ';
+            }
+            nextBtn.style.display = 'inline-block';
+        }
+    }
+
+    function updateProgressDisplay(index) {
+        const questionNumberInView = (index % questionsPerPart) +1; // Question number within the current part
+        const totalQuestionsInView = questionsPerPart;
+        const progressPercentage = (questionNumberInView / totalQuestionsInView) * 100;
+
+
+        progressBar.style.width = `${progressPercentage}%`;
+        questionCounter.textContent = `問題 ${questionNumberInView} / ${totalQuestionsInView} (パート ${currentQuizPart})`;
+    }
+
+
+    function saveCurrentAnswer() {
+        const currentQuestionDiv = quizForm.querySelector('.question-block.active');
+        if (!currentQuestionDiv) return false;
+        const questionName = currentQuestionDiv.querySelector('input[type="radio"]').name;
+        const selectedAnswer = quizForm.querySelector(`input[name="${questionName}"]:checked`);
+
+        if (selectedAnswer) {
+            userAnswers[questionName] = selectedAnswer.value;
+            alertMsg.style.display = 'none';
+            return true;
+        } else {
+            alertMsg.style.display = 'block';
+            return false;
+        }
+    }
+
+    function showResult(isFinal) {
+        quizContentDiv.style.display = 'none';
+        resultAreaDiv.style.display = 'block';
+        resultAreaDiv.innerHTML = '';
+
+        let score = 0;
+        const incorrectQuestionsForDisplay = [];
+        const startIndex = isFinal ? 0 : (currentQuizPart - 1) * questionsPerPart;
+        const endIndexLoop = isFinal ? totalOverallQuestions : (currentQuizPart * questionsPerPart);
+        const questionsCountForThisResult = endIndexLoop - startIndex;
+
+        for (let i = startIndex; i < endIndexLoop; i++) {
+            const questionName = `q${i + 1}`;
+            if (userAnswers[questionName] === quizData[i].answer) {
+                score++;
+            } else {
+                incorrectQuestionsForDisplay.push({ // This list is specific to the current result display
+                    index: i,
+                    userAnswerKey: userAnswers[questionName] || "未解答"
+                });
+            }
+        }
+        
+        // For final result, populate incorrectQuestionsOverall
+        if (isFinal) {
+            incorrectQuestionsOverall = []; // Reset
+            for (let i = 0; i < totalOverallQuestions; i++) {
+                const questionName = `q${i + 1}`;
+                if (userAnswers[questionName] !== quizData[i].answer) {
+                    incorrectQuestionsOverall.push({
+                        index: i,
+                        userAnswerKey: userAnswers[questionName] || "未解答"
+                    });
+                }
+            }
+        }
+
+
+        const percentage = ((score / questionsCountForThisResult) * 100).toFixed(1);
+        let resultHTML = `<h2>${isFinal ? '総合結果' : `パート ${currentQuizPart} の結果`}</h2>`;
+        resultHTML += `<p class="score-summary">スコア: ${score} / ${questionsCountForThisResult} 問正解 (${percentage}%)</p>`;
+
+        const listToUse = isFinal ? incorrectQuestionsOverall : incorrectQuestionsForDisplay;
+
+        if (listToUse.length > 0) {
+            resultHTML += `<hr style="border: none; border-top: 1px solid rgba(184, 134, 11, 0.4); margin: 30px 0;">`;
+            resultHTML += `<h3>間違えた問題の確認</h3>`;
+            resultHTML += `<div id="incorrect-list">`;
+            listToUse.forEach(item => {
+                const qData = quizData[item.index];
+                const userAnswerText = item.userAnswerKey !== "未解答" && qData.options[item.userAnswerKey] ? `${item.userAnswerKey}) ${qData.options[item.userAnswerKey]}` : "未解答";
+                const correctAnswerText = `${qData.answer}) ${qData.options[qData.answer]}`;
+                resultHTML += `
+                    <div class="incorrect-question-block">
+                        <p class="question-text">${qData.question}</p>
+                        <p class="user-answer">あなたの答え: ${userAnswerText}</p>
+                        <p class="correct-answer">正解: ${correctAnswerText}</p>
+                        <p class="explanation">解説: ${qData.explanation}</p>
+                    </div>
+                `;
+            });
+            resultHTML += `</div>`;
+        } else {
+            resultHTML += `<p style="color: #90EE90; margin-top: 20px; text-align:center; font-weight:bold; font-size:1.1em;">素晴らしい！このパートは全問正解です！</p>`;
+        }
+
+        resultAreaDiv.innerHTML = resultHTML;
+
+        const navButtonsContainer = document.createElement('div');
+        navButtonsContainer.style.textAlign = 'center';
+        navButtonsContainer.style.marginTop = '30px';
+
+        if (!isFinal && currentQuizPart === 1) {
+            const continueButton = document.createElement('button');
+            continueButton.id = 'continue-btn';
+            continueButton.classList.add('quiz-btn');
+            continueButton.textContent = '残りの問題に挑戦';
+            continueButton.onclick = () => {
+                currentQuizPart = 2;
+                currentQuestionIndex = questionsPerPart;
+                quizContentDiv.style.display = 'block';
+                resultAreaDiv.style.display = 'none';
+                loadQuestion(currentQuestionIndex);
+            };
+            navButtonsContainer.appendChild(continueButton);
+        }
+
+        if (isFinal) {
+            const restartButton = document.createElement('button');
+            restartButton.id = 'restart-btn';
+            restartButton.classList.add('quiz-btn');
+            restartButton.textContent = '最初に戻る';
+            restartButton.onclick = () => {
+                currentQuestionIndex = 0;
+                currentQuizPart = 1;
+                Object.keys(userAnswers).forEach(key => delete userAnswers[key]); // Clear answers
+                incorrectQuestionsOverall = [];
+                quizContentDiv.style.display = 'block';
+                resultAreaDiv.style.display = 'none';
+                loadQuestion(currentQuestionIndex);
+                 window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+            navButtonsContainer.appendChild(restartButton);
+        }
+        resultAreaDiv.appendChild(navButtonsContainer);
+        resultAreaDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    nextBtn.addEventListener('click', () => {
+        if (saveCurrentAnswer()) {
+            if (currentQuestionIndex === (questionsPerPart * currentQuizPart) - 1 && currentQuizPart === 1) {
+                showResult(false);
+            } else if (currentQuestionIndex === totalOverallQuestions - 1) {
+                showResult(true);
+            } else {
+                currentQuestionIndex++;
+                loadQuestion(currentQuestionIndex);
+                quizForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+    });
+
+    // Initial load
+    loadQuestion(currentQuestionIndex);
+</script>
+
+</body>
+</html>
